@@ -32,6 +32,11 @@ tools/venv/bin/python -I tools/tv.py '<shell cmd>'
 printf 'cmd1\ncmd2\n' | tools/venv/bin/python -I tools/tv.py --batch
 tools/venv/bin/python -I tools/tv.py 'input keyevent KEYCODE_DPAD_DOWN; screencap -p /sdcard/s.png'
 tools/venv/bin/python -I tools/tv.py --pull /sdcard/s.png s.png
+tools/venv/bin/python -I tools/b64push.py <local> <remote>   # large files; tv.py --push is for small ones
+
+# Apply / undo a debloat list (restore also re-enables the stock launcher, sets it home, resets animation scales)
+tools/disable.sh examples/<brand>-<model>/debloat.txt
+tools/restore.sh examples/<brand>-<model>/debloat.txt [stock.launcher.pkg]   # default com.google.android.tvlauncher
 
 # Build only
 cd launcher && ./gradlew assembleDebug        # -> app/build/outputs/apk/debug/app-debug.apk
@@ -49,6 +54,10 @@ also hold `tvhome.userName=<name>` for the greeting (injected as the `user_name`
 Dock icons for YouTube/Netflix/Prime/AirPlay are trademarked and gitignored; generate them locally with
 `tools/make_dock_icons.py` (see its docstring; needs pillow + cairosvg). Without them, apps fall back to their
 own icon/banner, so the build works either way.
+
+`tv.py` generates its RSA key in `tools/adbkey/` on first connect (gitignored), so the TV shows an "Allow USB
+debugging?" prompt the user must accept. Device dumps go in `backup/` (gitignored, holds serial/android_id) and
+must never be committed; the same goes for `screenshots/`.
 
 ## ADB gotchas that affect how you script the TV
 
@@ -80,7 +89,9 @@ All code is in `launcher/app/src/main/java/com/gathin/tvhome/`:
   `WRITE_SECURE_SETTINGS`, which `build-and-install.sh` grants over ADB.
 
 TV-specific values (starting dock, hidden apps, Live TV package, column count) belong in
-`app/src/main/res/values/config.xml`, not in code.
+`app/src/main/res/values/config.xml`, not in code. `columns` is both the grid width and the dock's maximum size.
+The committed `config.xml` is set up for a Fire TV (Amazon package names), so editing it for another TV changes
+the repo default. App is `minSdk 26`, `targetSdk 29`, Java 17 source level.
 
 ## Constraints for launcher changes (from CONTRIBUTING.md)
 
