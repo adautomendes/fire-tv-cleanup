@@ -8,10 +8,12 @@
     <!-- Starting dock, in this order. After that the dock is edited on the TV (hold OK or press Menu on an app)
          and saved on the device. Missing apps are skipped. -->
     <string-array name="dock_apps">
-        <item>com.amazon.firetv.youtube</item>
+        <item>br.com.claro.now.smarttvclient</item>  <!-- Claro TV+ -->
+        <item>com.hbo.hbonow</item>                  <!-- HBO Max -->
         <item>com.netflix.ninja</item>
         <item>com.amazon.firebat</item>
-        <item>com.apple.airplay.amazon.airplay</item>
+        <item>com.disney.disneyplus</item>
+        <item>com.amazon.firetv.youtube</item>
     </string-array>
 
     <!-- Apps never shown as tiles (e.g. the Live TV app, which the Inputs menu already covers). -->
@@ -21,11 +23,12 @@
         <item>com.amazon.smarthomemapviewapp</item>  <!-- Alexa Smart Home -->
         <item>com.amazon.spiderpork</item>   <!-- Luna -->
         <item>com.amazon.bueller.music</item>
+        <item>com.apple.airplay.amazon.airplay</item>
     </string-array>
 
     <!-- The TV's Live TV / tuner app, offered at the end of the Inputs menu. Leave empty to omit. -->
     <string name="live_tv_package" translatable="false">com.amazon.tv.livetv</string>
 
     <!-- Tiles per row in the grid, and the most apps the dock can hold. -->
-    <integer name="columns">4</integer>
+    <integer name="columns">6</integer>
 </resources>
